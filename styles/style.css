@@ -1,0 +1,88 @@
+/* Define CSS variables for light and dark themes */
+:root {
+    /* Light theme */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f3f4f6;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --nav-bg: #1e40af;
+    --nav-hover: #1e3a8a;
+    --hero-bg: linear-gradient(to right, #1e3c72, #2a5298);
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --border-color: #d1d5db;
+    --input-bg: #ffffff;
+    --input-text: #1f2937;
+}
+
+[data-theme="dark"] {
+    /* Dark theme */
+    --bg-primary: #1f2937;
+    --bg-secondary: #374151;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --nav-bg: #1e3a8a;
+    --nav-hover: #1e40af;
+    --hero-bg: linear-gradient(to right, #1f2937, #374151);
+    --card-bg: #374151;
+    --card-shadow: rgba(0, 0, 0, 0.3);
+    --border-color: #4b5563;
+    --input-bg: #4b5563;
+    --input-text: #f9fafb;
+}
+
+/* Styles for index.html */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.hero-bg {
+    background: var(--hero-bg);
+}
+.dropdown-menu {
+    transition: all 0.3s ease-in-out;
+}
+#dropdown-menu {
+    background-color: var(--nav-bg);
+    color: var(--text-primary);
+}
+#dropdown-menu button:hover {
+    background-color: var(--nav-hover);
+}
+#home-page, #features-page, #mitigation-page, #malware-page, #report-page, #url-analysis-page, #ip-analysis-page, #port-scan-page, #hash-analysis-page, #password-checker-page, #contact-page {
+    background-color: var(--bg-secondary);
+}
+#features-page .bg-white, #mitigation-page .bg-white, #malware-page .bg-white, #report-page .bg-white, #url-analysis-page .bg-white, #ip-analysis-page .bg-white, #port-scan-page .bg-white, #hash-analysis-page .bg-white, #password-checker-page .bg-white, #contact-page .bg-white {
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 6px var(--card-shadow);
+}
+#features-page p, #mitigation-page p, #report-page p, #url-analysis-page p, #ip-analysis-page p, #port-scan-page p, #hash-analysis-page p, #password-checker-page p, #contact-page p {
+    color: var(--text-secondary);
+}
+#url-analysis-page input, #ip-analysis-page input, #port-scan-page input, #hash-analysis-page textarea, #password-checker-page input, #contact-page input, #contact-page textarea {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border-color: var(--border-color);
+}
+#report-page .border, #url-analysis-page .border, #port-scan-page .border, #hash-analysis-page .border, #password-checker-page .border, #contact-page .border {
+    border-color: var(--border-color);
+}
+#form-message {
+    color: var(--text-secondary);
+}
+
+/* Styles for login.html and signup.html */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+.bg-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
+}

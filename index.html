@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity Analysis Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body class="font-sans">
+  <!-- Navigation Bar -->
+  <nav id="nav-bar" class="bg-blue-800 text-white p-4 sticky top-0 z-10 shadow-lg transition-colors duration-300">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Cybersecurity Platform</h1>
+      <div class="flex items-center space-x-4">
+        <button id="home-btn" class="px-4 py-2 hover:bg-blue-700 rounded">Home</button>
+        <!-- Dropdown Menu -->
+        <div id="analysis-dropdown" class="relative hidden">
+          <button id="dropdown-toggle" class="px-4 py-2 hover:bg-blue-700 rounded flex items-center">
+            Analysis Tools
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div id="dropdown-menu" class="dropdown-menu absolute hidden bg-blue-800 text-white mt-2 rounded-lg shadow-lg w-48">
+            <button id="malware-btn" class="block px-4 py-2 hover:bg-blue-700 w-full text-left">Malware Analyzer</button>
+            <button id="url-analysis-btn" class="block px-4 py-2 hover:bg-blue-700 w-full text-left">URL Analysis</button>
+            <button id="ip-analysis-btn" class="block px-4 py-2 hover:bg-blue-700 w-full text-left">IP Analysis</button>
+            <button id="port-scan-btn" class="block px-4 py-2 hover:bg-blue-700 w-full text-left">Port Scan</button>
+            <button id="hash-analysis-btn" class="block px-4 py-2 hover:bg-blue-700 w-full text-left">Hash Analyzer</button>
+            <button id="password-checker-btn" class="block px-4 py-2 hover:bg-blue-700 w-full text-left">Password Strength Checker</button>
+          </div>
+        </div>
+        <button id="contact-btn" class="px-4 py-2 hover:bg-blue-700 rounded">Contact</button>
+        <a id="login-btn" href="login.html" class="px-4 py-2 hover:bg-blue-700 rounded">Login</a>
+        <a id="signup-btn" href="signup.html" class="px-4 py-2 hover:bg-blue-700 rounded">Signup</a>
+        <button id="logout-btn" class="px-4 py-2 hover:bg-blue-700 rounded hidden">Logout</button>
+        <!-- Dark/Light Mode Toggle -->
+        <button id="theme-toggle-btn" class="px-4 py-2 rounded flex items-center">
+          <svg id="theme-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Home Page -->
+  <div id="home-page" class="min-h-screen flex items-center hero-bg text-white">
+    <div class="container mx-auto text-center px-6 py-12">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6">Welcome to Cybersecurity Analysis Platform</h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Protect your digital world with advanced AI-driven tools for malware detection, URL analysis, IP monitoring, and more. Explore our features to safeguard your systems today!</p>
+      <div class="flex justify-center space-x-4">
+        <button id="features-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Explore Features</button>
+        <button id="mitigation-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Mitigate & Security Awareness</button>
+      </div>
+      <div class="mt-12">
+        <svg class="w-24 h-24 mx-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4m0 0c2.21 0 4 1.79 4 4zm4 4c0 2.21-1.79 4-4 4s-4-1.79-4-4m4-8c2.21 0 4 1.79 4 4s-1.79 4-4 4"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Page -->
+  <div id="features-page" class="min-h-screen bg-gray-100 hidden">
+    <div class="container mx-auto p-6 py-12">
+      <h2 class="text-4xl font-bold text-center text-blue-600 mb-10">Our Features</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-blue-600 mb-4">AI-based Malware Analyzer</h3>
+          <p class="text-gray-700">Utilize cutting-edge AI to detect and analyze malware in executable files, PDFs, and documents. Upload your files to receive detailed reports on potential threats, including malware type and confidence levels, ensuring your systems remain secure.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-blue-600 mb-4">URL Analysis</h3>
+          <p class="text-gray-700">Scan URLs for phishing, malware, and suspicious redirects. Enter any web address to get a comprehensive analysis, including threat category and probability, to protect against malicious online content.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-blue-600 mb-4">IP Address Analysis</h3>
+          <p class="text-gray-700">Investigate IP addresses for botnet activity or malicious behavior. Input an IP to receive insights on its status and associated threats, helping you identify and mitigate risks effectively.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-blue-600 mb-4">Port Scan & Service Detection</h3>
+          <p class="text-gray-700">Perform port scans on IPs or domains to detect open ports and running services. Get detailed results on potential vulnerabilities and service statuses to enhance your network security.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-blue-600 mb-4">Hash Analyzer</h3>
+          <p class="text-gray-700">Analyze cryptographic hashes to identify their type (e.g., MD5, SHA1, SHA256, BCRYPT, NTLM). Input a hash to receive detailed information about its format and potential use.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-blue-600 mb-4">Password Strength Checker</h3>
+          <p class="text-gray-700">Evaluate the strength of your passwords based on length, uppercase letters, numbers, and symbols. Receive instant feedback to create stronger, more secure passwords.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mitigation Page -->
+  <div id="mitigation-page" class="min-h-screen bg-gray-100 dark:bg-gray-900 hidden">
+    <div class="container mx-auto p-6 py-12">
+      <h2 class="text-4xl font-bold text-center text-green-600 dark:text-green-400 mb-10">
+        How to Mitigate Cybersecurity Threats
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Malware Mitigation -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-green-600 dark:text-green-400 mb-4">🔒 Malware</h3>
+          <ol class="list-decimal list-inside space-y-2 text-black">
+            <li>Keep OS and applications patched with the latest security updates (NIST SP 800-40).</li>
+            <li>Deploy Endpoint Detection and Response (EDR) or Next-Gen Antivirus.</li>
+            <li>Regularly scan files, downloads, and email attachments.</li>
+            <li>Restrict administrative privileges to reduce infection impact.</li>
+            <li>Enable application whitelisting to block unauthorized software.</li>
+            <li>Train users to recognize suspicious links and attachments.</li>
+          </ol>
+          <!-- Sources -->
+          <div class="mt-4 text-sm text-black">
+            <strong>Sources:</strong>
+            <ul class="list-disc list-inside">
+              <li><a href="https://csrc.nist.gov/publications/detail/sp/800-40/rev-4/final" target="_blank" class="text-blue-900 hover:underline">NIST SP 800-40</a></li>
+              <li><a href="https://owasp.org/www-project-top-ten/" target="_blank" class="text-blue-900 hover:underline">OWASP Top 10</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- Phishing Mitigation -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-green-600 dark:text-green-400 mb-4">🌐 Phishing & URLs</h3>
+          <ol class="list-decimal list-inside space-y-2 text-black">
+            <li>Verify sender identity before opening links or attachments.</li>
+            <li>Implement Multi-Factor Authentication (MFA) to reduce credential theft impact.</li>
+            <li>Use DNS filtering and anti-phishing email gateways.</li>
+            <li>Run simulated phishing campaigns for user awareness (NIST SP 800-50).</li>
+            <li>Enable email header analysis and URL sandboxing for suspicious content.</li>
+            <li>Report phishing attempts to security teams immediately.</li>
+          </ol>
+          <!-- Sources -->
+          <div class="mt-4 text-sm text-black">
+            <strong>Sources:</strong>
+            <ul class="list-disc list-inside">
+              <li><a href="https://csrc.nist.gov/publications/detail/sp/800-50/final" target="_blank" class="text-blue-900 hover:underline">NIST SP 800-50</a></li>
+              <li><a href="https://www.cisa.gov/topics/cybersecurity-101/phishing" target="_blank" class="text-blue-900 hover:underline">CISA Phishing Guidance</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- IP & Botnets Mitigation -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-green-600 dark:text-green-400 mb-4">💻 IP & Botnets</h3>
+          <ol class="list-decimal list-inside space-y-2 text-black">
+            <li>Continuously monitor inbound and outbound network traffic (SIEM).</li>
+            <li>Block known malicious IPs/domains using threat intelligence feeds.</li>
+            <li>Use IDS/IPS systems to detect and stop command & control (C2) traffic.</li>
+            <li>Harden endpoint security to prevent joining botnets.</li>
+            <li>Apply rate limiting and anomaly detection to prevent large-scale abuse.</li>
+            <li>Segment IoT and untrusted devices from critical networks.</li>
+          </ol>
+          <!-- Sources -->
+          <div class="mt-4 text-sm text-black">
+            <strong>Sources:</strong>
+            <ul class="list-disc list-inside">
+              <li><a href="https://attack.mitre.org/" target="_blank" class="text-blue-900 hover:underline">MITRE ATT&CK Framework</a></li>
+              <li><a href="https://www.sans.org/white-papers/370/" target="_blank" class="text-blue-900 hover:underline">SANS Botnet Defense</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- Open Ports Mitigation -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-semibold text-green-600 dark:text-green-400 mb-4">📡 Open Ports</h3>
+          <ol class="list-decimal list-inside space-y-2 text-black">
+            <li>Close all unnecessary ports and disable unused services (CIS Control 9).</li>
+            <li>Implement strict firewall rules with default-deny policy.</li>
+            <li>Use port scanning tools (e.g., Nmap) for continuous monitoring.</li>
+            <li>Restrict remote access (e.g., RDP, SSH) to VPN or jump servers.</li>
+            <li>Enable logging and alerts for unusual connection attempts.</li>
+            <li>Deploy network segmentation and Zero Trust principles.</li>
+          </ol>
+          <!-- Sources -->
+          <div class="mt-4 text-sm text-black">
+            <strong>Sources:</strong>
+            <ul class="list-disc list-inside">
+              <li><a href="https://www.cisecurity.org/controls/cis-control-9-limitation-and-control-of-network-ports-protocols-and-services" target="_blank" class="text-blue-900 hover:underline">CIS Control 9</a></li>
+              <li><a href="https://www.nist.gov/cyberframework" target="_blank" class="text-blue-900 hover:underline">NIST Cybersecurity Framework</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Awareness Section -->
+      <section id="awareness-section" class="mt-16">
+        <h2 class="text-3xl text-center text-green-600 dark:text-green-400 mb-8">🔒 Security Awareness Tips</h2>
+        <div class="awareness-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div class="tip-card">✅ Use strong and unique passwords for every account.</div>
+          <div class="tip-card">✅ Enable Two-Factor Authentication (2FA) wherever possible.</div>
+          <div class="tip-card">✅ Be cautious of phishing emails and suspicious links.</div>
+          <div class="tip-card">✅ Keep your software and systems updated regularly.</div>
+          <div class="tip-card">✅ Backup your important data frequently.</div>
+          <div class="tip-card">✅ Never share sensitive information over unsecured channels.</div>
+          <div class="tip-card">✅ Lock your devices when not in use.</div>
+          <div class="tip-card">✅ Use a VPN when connected to public Wi-Fi.</div>
+          <div class="tip-card">✅ Limit access based on the principle of least privilege.</div>
+          <div class="tip-card">✅ Stay informed about the latest cybersecurity threats.</div>
+        </div>
+        <!-- CSS -->
+        <style>
+          #awareness-section {
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          }
+          .tip-card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            color: #000000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+          }
+          .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+          }
+        </style>
+      </section>
+    </div>
+  </div>
+
+  <!-- Malware Analyzer Page -->
+  <div id="malware-page" class="min-h-screen bg-gray-100 hidden">
+    <div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-500 to-blue-700 text-white">
+      <div class="text-center px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">AI-based Malware Analyzer</h2>
+        <div class="flex justify-center mb-8">
+          <svg class="w-16 h-16 md:w-24 md:h-24 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4m0 0c2.21 0 4 1.79 4 4zm4 4c0 2.21-1.79 4-4 4s-4-1.79-4-4m4-8c2.21 0 4 1.79 4 4s-1.79 4-4 4"></path>
+          </svg>
+        </div>
+        <input type="file" id="file-input" class="mb-4 p-2 text-gray-700 bg-white rounded-lg w-full max-w-xs text-center" accept=".exe,.pdf,.docx,.xlsx">
+        <button id="analyze-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">Analyze</button>
+      </div>
+    </div>
+    <div class="container mx-auto p-6 mt-12 bg-white">
+      <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Dashboard</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold mb-2">Total Files Analyzed</h3>
+          <p id="total-files" class="text-4xl font-bold text-blue-600">125</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold mb-2">Malicious vs Clean</h3>
+          <canvas id="malicious-clean-chart" class="w-full h-48"></canvas>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold mb-2">Most Common Malware Types</h3>
+          <canvas id="malware-types-chart" class="w-full h-48"></canvas>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg col-span-1 md:col-span-2 lg:col-span-3">
+          <h3 class="text-xl font-semibold mb-2">Attack Trends Over Time</h3>
+          <canvas id="attack-trend-chart" class="w-full h-64"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report Page -->
+  <div id="report-page" class="min-h-screen flex flex-col items-center justify-center bg-gray-100 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-2xl font-bold mb-4 text-center text-blue-600">Analysis Report</h2>
+      <div id="report-content" class="border p-4 rounded-lg mb-6">
+        <p><strong>File Name:</strong> <span id="file-name">example.exe</span></p>
+        <p><strong>File Hash:</strong> <span id="file-hash">4a7d1ed414...</span></p>
+        <p><strong>Size:</strong> <span id="file-size">2.3 MB</span></p>
+        <p><strong>Result:</strong> <span id="result" class="text-red-600 font-bold">MALICIOUS ⚠️</span></p>
+        <p><strong>Category:</strong> <span id="category">Ransomware</span></p>
+        <p><strong>Confidence:</strong> <span id="confidence">94%</span></p>
+        <p id="file-data"></p>
+      </div>
+      <div class="mb-6">
+        <canvas id="report-chart" class="w-full h-64"></canvas>
+      </div>
+      <button id="download-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg w-full transition duration-300">Download Report (PDF)</button>
+    </div>
+  </div>
+
+  <!-- URL Analysis Page -->
+  <div id="url-analysis-page" class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-teal-500 to-teal-700 text-white hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-2xl font-bold mb-4 text-center text-teal-600">URL Analysis</h2>
+      <input type="text" id="url-input" class="w-full p-2 mb-4 border rounded-lg" placeholder="Enter URL (e.g., https://example.com)">
+      <button id="url-analyze-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg w-full transition duration-300">Analyze URL</button>
+      <div id="url-result" class="mt-6 hidden">
+        <h3 class="text-xl font-semibold mb-2">URL Analysis Result</h3>
+        <div class="border p-4 rounded-lg">
+          <p><strong>URL:</strong> <span id="url-value">https://example.com</span></p>
+          <p><strong>Result:</strong> <span id="url-result-status" class="text-red-600 font-bold">PHISHING ⚠️</span></p>
+          <p><strong>Category:</strong> <span id="url-category">Phishing</span></p>
+          <p><strong>Confidence:</strong> <span id="url-confidence">85%</span></p>
+        </div>
+        <canvas id="url-chart" class="w-full h-64 mt-4"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- IP Address Analysis Page -->
+  <div id="ip-analysis-page" class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-indigo-500 to-indigo-700 text-white hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-2xl font-bold mb-4 text-center text-indigo-600">IP Address Analysis</h2>
+      <input type="text" id="ip-input" class="w-full p-2 mb-4 border rounded-lg" placeholder="Enter IP Address (e.g., 192.168.1.1)">
+      <button id="ip-analyze-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg w-full transition duration-300">Analyze IP</button>
+      <div id="ip-result" class="mt-6 hidden">
+        <h3 class="text-xl font-semibold mb-2">IP Analysis Result</h3>
+        <div class="border p-4 rounded-lg">
+          <p><strong>IP Address:</strong> <span id="ip-value">192.168.1.1</span></p>
+          <p><strong>Result:</strong> <span id="ip-result-status" class="text-red-600 font-bold">BOTNET ⚠️</span></p>
+          <p><strong>Details:</strong> <span id="ip-details">Associated with malicious botnet activity</span></p>
+          <p><strong>Confidence:</strong> <span id="ip-confidence">90%</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Port Scan & Service Detection Page -->
+  <div id="port-scan-page" class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-purple-500 to-purple-700 text-white hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-2xl font-bold mb-4 text-center text-purple-600">Port Scan & Service Detection</h2>
+      <input type="text" id="port-scan-input" class="w-full p-2 mb-4 border rounded-lg" placeholder="Enter IP or Domain (e.g., 192.168.1.1 or example.com)">
+      <button id="port-scan-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg w-full transition duration-300">Scan Ports</button>
+      <div id="port-scan-result" class="mt-6 hidden">
+        <h3 class="text-xl font-semibold mb-2">Port Scan Results</h3>
+        <div class="border p-4 rounded-lg">
+          <p><strong>Target:</strong> <span id="port-scan-target">example.com</span></p>
+          <p><strong>Open Ports:</strong> <span id="port-scan-ports">80 (HTTP), 443 (HTTPS)</span></p>
+          <p><strong>Services:</strong> <span id="port-scan-services">Web Server (Apache/2.4.41)</span></p>
+          <p><strong>Status:</strong> <span id="port-scan-status" class="text-yellow-600 font-bold">SUSPICIOUS ⚠️</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hash Analysis Page -->
+  <div id="hash-analysis-page" class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-cyan-500 to-cyan-700 text-white hidden">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-2xl font-bold mb-4 text-center text-cyan-600 dark:text-cyan-400">Hash Analyzer</h2>
+      <textarea id="hash-input" class="w-full p-3 mb-4 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-y overflow-auto" rows="3" placeholder="Enter Hash (e.g., 5d41402abc4b2a76b9719d911017c592)"></textarea>
+      <button id="hash-analyze-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg w-full transition duration-300">Analyze Hash</button>
+      <div id="hash-result" class="mt-6 hidden">
+        <h3 class="text-xl font-semibold mb-2">Hash Analysis Result</h3>
+        <div class="border p-4 rounded-lg break-words">
+          <p><strong>Hash:</strong> <span id="hash-value" class="break-all text-black"></span></p>
+          <p><strong>Type:</strong> <span id="hash-type" class="text-blue-600 font-bold"></span></p>
+          <p><strong>Details:</strong> <span id="hash-details" class="text-black"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password Strength Checker Page -->
+  <div id="password-checker-page" class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-amber-500 to-amber-700 text-white hidden">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-2xl font-bold mb-4 text-center text-amber-600 dark:text-amber-400">Password Strength Checker</h2>
+      <input type="password" id="password-input" class="w-full p-3 mb-4 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="Enter Password">
+      <button id="password-check-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg w-full transition duration-300">Check Password</button>
+      <div id="password-result" class="mt-6 hidden">
+        <h3 class="text-xl font-semibold mb-2">Password Strength Result</h3>
+        <div class="border p-4 rounded-lg">
+          <p><strong>Password:</strong> <span id="password-value" class="text-black">[Hidden for security]</span></p>
+          <p><strong>Strength:</strong> <span id="password-strength" class="font-bold"></span></p>
+          <p><strong>Details:</strong> <span id="password-details" class="text-black"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Page -->
+  <div id="contact-page" class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-green-500 to-green-700 text-white hidden">
+    <div class="container mx-auto p-6 py-12">
+      <h2 class="text-4xl font-bold text-center text-green-600 dark:text-green-400 mb-10">Contact Us</h2>
+      <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-lg mx-auto">
+        <form id="contact-form" class="space-y-6">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+            <input type="text" id="name" name="name" required class="w-full p-3 mt-1 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Your Name">
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+            <input type="email" id="email" name="email" required class="w-full p-3 mt-1 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Your Email">
+          </div>
+          <div>
+            <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Subject</label>
+            <input type="text" id="subject" name="subject" required class="w-full p-3 mt-1 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Subject">
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
+            <textarea id="message" name="message" required rows="5" class="w-full p-3 mt-1 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Your Message"></textarea>
+          </div>
+          <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Send Message</button>
+        </form>
+        <div id="form-message" class="mt-4 text-center hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>
